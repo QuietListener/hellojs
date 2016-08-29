@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>lean front end</title>
+</head>
+
+<body>
+<dl id="drink-menu" style="border:solid 1px #ccc;padding:6px;">
+    <dt>摩卡</dt>
+    <dd>热摩卡咖啡</dd>
+    <dt>酸奶</dt>
+    <dd>北京老酸奶</dd>
+    <dt>果汁</dt>
+    <dd>鲜榨苹果汁</dd>
+</dl>
+
+
+
+<!-- HTML结构 -->
+<div id="test-div">
+    <div class="c-red">
+        <p id="test-p">JavaScript</p>
+        <p>Java</p>
+    </div>
+    <div class="c-red c-green">
+        <p>Python</p>
+        <p>Ruby</p>
+        <p>Swift</p>
+    </div>
+    <div class="c-green">
+        <p>Scheme</p>
+        <p>Haskell</p>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+<script>
+setTimeout(function(){
+    //浏览器对象
+    //window
+    //inner width 除去菜单栏、工具栏、边框等占位元素后，用于显示网页的净宽高。
+    console.log("window inner width:"+window.innerWidth+" window inner height:"+window.innerHeight)
+    //outerWidth和outerHeight属性，可以获取浏览器窗口的整个宽高。
+    console.log("window outer width:"+window.outerWidth+" window outer height:"+window.outerHeight)
+
+    //navigator 获取浏览器的信息
+    console.log('appName = ' + navigator.appName + '\n' +
+            'appVersion = ' + navigator.appVersion + '\n' +
+            'language = ' + navigator.language + '\n' +
+            'platform = ' + navigator.platform + '\n' +
+            'userAgent = ' + navigator.userAgent);
+    //屏幕信息
+    console.log('Screen size = ' + screen.width + ' x ' + screen.height);
+
+    //location 获取当前页面的url信息
+    console.log("url = "+location.href)
+    console.log("protocal = " + location.protocol // 'http'
+        +" host = "+location.host// 'www.example.com'
+        +" port = "+location.port // '8080'
+        +" path = " +location.pathname // '/path/index.html'
+        +" search = " + location.search // '?a=1&b=2'
+        +" hash=" + location.hash);
+
+
+    //document  document对象表示当前页面。由于HTML在浏览器中以DOM形式表示为树形结构，document对象就是整个DOM树的根节点。
+
+    //document的title属性是从HTML文档中的<title>xxx</title
+
+    console.log("==document==")
+    console.log("title = " +document.title)
+
+    var menu = document.getElementById("drink-menu")
+    console.log("menu:"+menu.innerHTML);
+    console.log("menu:"+menu.outerHTML);
+    console.log("menu:"+menu.tagName);
+
+
+    var drinks = document.getElementsByTagName('dt');
+    s = '提供的饮料有:';
+    for(var drink of drinks) {
+        s = s + drink.innerHTML + ',';
+    }
+
+    console.log(s)
+
+    //cookie
+    console.log(document.cookie)
+
+
+    console.log("==操作dom树:更新,遍历,添加,删除==")
+
+    //根据id获取元素
+    var test_div = document.getElementById("test-div");
+    console.log(test_div);
+
+    //获取test_div下面的所有div
+    var test_children_div = test_div.getElementsByTagName("div");
+    console.log(test_children_div);
+
+    //获取test_div下面的所有class为c-red的节点
+    var test_children_div_class = test_div.getElementsByClassName("c-red");
+    console.log(test_children_div_class);
+
+    //获取test_div所有直属节点
+    var test_children = test_div.children;
+    console.log(test_children);
+
+    //获取test_div下第一个和最后一个节点
+    var test_first = test_div.firstElementChild;
+    var test_last = test_div.lastElementChild;
+    console.log(test_first);
+    console.log(test_last);
+
+
+
+},1000);
+
+
+
+
+</script>
+

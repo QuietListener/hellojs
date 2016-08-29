@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>lean front end: form</title>
+</head>
+
+<body>
+
+    <div id="result_div">
+
+    </div>
+
+    <br>
+    <button id="btn">testajax</button>
+    <button id="btn1">testjsonp</button>
+</body>
+</html>
+
+
+<script>
+
+
+    var request;
+    //提供一个兼容的request
+    if (window.XMLHttpRequest)
+    {
+        request = new XMLHttpRequest();
+    }
+    else
+    {
+        request = new ActiveXObject('Microsoft.XMLHTTP'); //兼容ie
+    }
+
+    function result(txt)
+    {
+          var  result_div  =  document.getElementById("result_div");
+          result_div.innerHTML = txt;
+    }
+
+    var  btn = document.getElementById("btn");
+    btn.addEventListener("click",function(){
+        request.onreadystatechange = function(){ //状态变化时候触发回调函数，(毕竟js是单线程的)
+            if(request.readyState === 4)//4代表成功
+            {
+                if(request.status == 200)
+                {
+                    result("成功:"+request.responseText)
+                }
+                else
+                {
+                    result("失败:"+request.responseText)
+                }
+            }
+            else
+            {
+                console.log("request state :" + request.readyState)
+            }
+        }
+
+        var url = "http://localhost:63343/HelloJs/ajax.html";
+        request.open("get", url);
+        request.send();
+    });
+
+    /**
+     ajax 安全限制:跨域问题
+     默认情况下，JavaScript在发送AJAX请求时，URL的域名必须和当前页面完全一致。
+     完全一致的意思是，域名要相同（www.example.com和example.com不同），协议要相同（http和https不同），端口号要相同（默认是:80端口，它和:8080就不同）。
+     有的浏览器口子松一点，允许端口不同，大多数浏览器都会严格遵守这个限制.
+     */
+
+    /*
+      解决跨域问题,js文件跨域访问，可以利用这点来进行跨域加载。这种方式叫做JSONP
+      Web页面上调用js文件时则不受是否跨域的影响（不仅如此，我们还发现凡是拥有”src”这个属性的标签都拥有跨域的能力，比如<script>、<img>、<iframe>）
+      服务端返回的是一个函数并把数据当成参数, 比如func({"a":123,"b":234,"c":[1,2,3]}),相当调用func参数是{"a":123,"b":234,"c":[1,2,3]}
+      client端就需要事先定义好func这个函数
+     */
+
+    //这个函数定义了怎么处理服务器传过来的数据。
+    //func({"a":123,"b":234,"c":[1,2,3]})
+    function func(param)
+    {
+        result (JSON.stringify(param));
+    }
+
+    var  btn1 = document.getElementById("btn1");
+    btn1.addEventListener("click",function(){
+        var js = document.createElement("script");
+        js.src = "http://localhost:63343/HelloJs/ajaxjsonp.json";
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(js);
+    });
+
+</script>
+

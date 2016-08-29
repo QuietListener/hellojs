@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>lean front end: form</title>
+</head>
+
+<body>
+
+    <form id="form" enctype="multipart/form-data" method="post">
+        <input type="text" id="email" value="aa@bb.com">
+        <input type="password" id="password" value="123">
+        <div>
+            <label><input type="radio" name="animal" value="rat" id="rat">rat</label>
+            <label><input type="radio" name="animal" value="pig" id="pig" checked>pig</label>
+        </div>
+
+        <div>
+            <label><input type="checkbox" name="type" value="type1" id="type1">type1</label>
+            <label><input type="checkbox" name="type" value="type2" id="type2" checked>type2</label>
+        </div>
+
+        <div>
+             <select name="car" id="select">
+                 <option value="byd">byd</option>
+                 <option value="fort" selected>fort</option>
+                 <option value="hafu">hafu</option>
+             </select>
+        </div>
+
+        <p>html5控件</p>
+        <label>时间<input type="date" value="2015-07-01"></label>
+
+        <label>时间local<input type="datetime-local" value="2015-07-01T02:03:04"></label>
+
+        <br>
+
+        <p>操作文件</p>
+        <div id="file_show" style="border: 1px solid #ccc; width: 100%; height: 200px; background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
+        <input type="file" id="file">
+        <p id="file_tip"></p>
+        <input type="submit" value="submit" id="submit">
+    </form>
+
+    <br>
+    <button id="btn">test</button>
+</body>
+</html>
+
+
+<script>
+    btn.addEventListener("click",function(){
+    console.log("== 操作form ==")
+    //text、password、hidden以及select 获取值
+    var item1s = ["email","password","select"];
+    for(var i of item1s)
+    {
+        var item = document.getElementById(i);
+        console.log(item.value);
+    }
+
+    //对于单选框和复选框，value属性返回的永远是HTML预设的值 使用checked判断是否选中
+
+    var item1s = ["type1","type2","rat","pig"];
+    for(var i of item1s)
+    {
+        var item = document.getElementById(i);
+        console.log(item.value+":"+item.checked);
+    }
+
+    //设置多选和单选框的值
+    var item = document.getElementById("rat");
+    item.checked = true;
+
+        var item1s = ["type1","type2","rat","pig"];
+    for(var i of item1s)
+    {
+        var item = document.getElementById(i);
+        console.log(item.value+":"+item.checked);
+    }
+
+    //设置select password text的值
+    var item1s = ["email","password","select"];
+    for(var i of item1s)
+    {
+        var item = document.getElementById(i);
+        if(i != "select")
+        {
+            item.value = item.value+"_new"
+        }
+
+        console.log(item.value);
+    };
+    //提交表单有2种方法,submit方法和
+     var submit = document.getElementById("submit") ;
+      submit.addEventListener("click",function(){
+          var form = document.getElementById("form");
+          form.submit();
+          return false; //不会继续往下
+      })
+
+
+
+
+},1000);
+
+
+    /*
+     由于JavaScript对用户上传的文件操作非常有限，尤其是无法读取文件内容，使得很多需要操作文件的网页不得不用Flash这样的第三方插件来实现。
+     随着HTML5的普及，新增的File API允许JavaScript读取文件内容，获得更多的文件信息。HTML5的File API提供了File和FileReader两个主要对象，可以获得文件信息并读取文件
+     */
+    var file = document.getElementById("file"),
+            file_show = document.getElementById("file_show"),
+            file_tip = document.getElementById("file_tip");
+
+    file.addEventListener("change",function(){
+        if(!file.value)
+        {
+            file_tip.innerHTML = "文件为空,请选择文件";
+            return ;
+        }
+
+        //获取file的引用
+        var f = file.files[0];
+
+        //获取文件信息
+        file_tip.innerHTML=f.name + ":" + f.size + ":" + f.lastModifiedDate;
+        if(f.type != "image/jpeg")
+        {
+           alert("不是jpg文件")
+        }
+
+        //读取文件
+        var reader = new FileReader();
+        reader.onload = function(e){
+            console.log("e:"+e)
+            var data = e.target.result; //'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...'
+            console.log(data)
+            file_show.style.backgroundImage = 'url(' + data + ')';
+        }
+
+        reader.readAsDataURL(f);
+
+    });
+
+</script>
+

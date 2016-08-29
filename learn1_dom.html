@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>lean front end</title>
+</head>
+
+<body>
+
+
+
+<!-- HTML结构 -->
+<div id="test-div">
+    <div class="c-red">
+        <p id="test-p">JavaScript</p>
+        <p>Java</p>
+    </div>
+    <div class="c-red c-green">
+        <p>Python</p>
+        <p>Ruby</p>
+        <p>Swift</p>
+    </div>
+    <div class="c-green" id="func">
+        <p>Scheme</p>
+        <p>Haskell</p>
+    </div>
+    <p id="p-id"> </p>
+    <p id="p-id1"> </p>
+    <p id="p-id2"> </p>
+</div>
+
+</body>
+</html>
+
+
+<script>
+setTimeout(function(){
+    console.log("==操作dom树:更新,遍历,添加,删除==")
+
+    //根据id获取元素
+    var test_div = document.getElementById("test-div");
+    console.log(test_div);
+
+    //获取test_div下面的所有div
+    var test_children_div = test_div.getElementsByTagName("div");
+    console.log(test_children_div);
+
+    //获取test_div下面的所有class为c-red的节点
+    var test_children_div_class = test_div.getElementsByClassName("c-red");
+    console.log(test_children_div_class);
+
+    //获取test_div所有直属节点
+    var test_children = test_div.children;
+    console.log(test_children);
+
+    //获取test_div下第一个和最后一个节点
+    var test_first = test_div.firstElementChild;
+    var test_last = test_div.lastElementChild;
+    console.log(test_first);
+    console.log(test_last);
+
+
+    console.log("==更新dom==")
+    var p = document.getElementById("p-id");
+    p.innerHTML = "ABC";
+
+    var p1 = document.getElementById("p-id1");
+    p1.innerHTML = "BCD<span style='color:red'> EFG</span><span style='display: none'>innerHtml hidden</span> ";
+
+    //innerText 会自动转义
+    var p2 = document.getElementById("p-id2");
+    p2.innerText = "<span>innerText</span><script>script<\/script>"
+    console.log(p1.innerText)   //返回可见元素的文本
+    console.log(p1.textContent) //会返回隐藏元素的文本
+
+    //修改样式 javascript中是驼峰式的 比如font-size 对应 fontSize
+    p2.style.color = "red";
+    p2.style.fontSize = "30px";
+    p2.style.fontWeight = "bold";
+
+
+    console.log("== 插入节点==")
+    var child = document.createElement("p")
+    child.innerText = "appended child "
+    test_div.appendChild(child);
+
+    var child1 = document.createElement("p")
+    child1.innerText = "insert before child "
+    test_div.insertBefore(child1,p2);
+
+
+    console.log("==获取一个节点的所有节点==");
+    var i, cs;
+    cs = test_div.children
+    for(i = 0; i < cs.length; i++)
+    {
+        var c = cs[i];
+        console.log(c);
+    }
+
+
+    console.log("== 删除节点 ==")
+    var self = document.getElementById("func");
+    var parent = self.parentNode
+    var removed = parent.removeChild(self);
+    console.log("removed === self: " + (removed === self));
+},3000);
+
+</script>
+
