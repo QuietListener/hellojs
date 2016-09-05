@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>层次布局 position:absolute ,relative, fixed</title>
+
+    <style type="text/css">
+
+        #wrap{
+            margin:0 auto;
+        }
+
+        #footer,#content{
+            width:900px;
+            height:800px;
+            border: solid 1px #cccccc;
+            margin:10px auto;
+        }
+
+        #div1{
+            height:140px;
+            border: solid 1px red;
+            margin: 20px;
+        }
+
+        img{
+            display: block;
+            margin:auto;
+        }
+        .img-box{
+            width:88px;
+            margin:2px auto;
+            height: 100px;
+            border:1px solid #cccccc;
+
+        }
+
+        .img-box .tip{
+            margin:auto 10px;
+        }
+
+
+
+        #div2{
+            height:300px;
+            border: solid 1px green;
+            position: relative;
+            left:-20px;
+            bottom:-50px;
+        }
+
+        #div3{
+            position: relative;
+
+            height: 200px;
+            border:1px solid green;
+        }
+
+        #div4{
+            position: absolute;
+            width:100px;
+            height: 100px;
+            border:1px solid green;
+            right:0px;
+            top:0px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <div id="content">
+            <div id="div1">
+                <div class="img-box">
+                    <img src="http://talents.baicizhan.com/upload/6_54_21_20160701102530_60270.jpg" width=80 height="80">
+                    <p class="tip">hello</p>
+                </div>
+            </div>
+
+            <div id="div2">
+                <div id="div3">
+                    div3
+                </div>
+                <div id="div4">
+                    div4
+                </div>
+            </div>
+
+        </div>
+
+        <div id="footer">
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>lean front end: form</title>
+
+</head>
+
+<body>
+</body>
+</html>
+
+
+<script>
+    setTimeout(function() {
+        'user strict'
+        console.log("==Collection==");
+
+        console.log("map")
+        var map1 = {name: "bobo", school: "jianZhong"}
+        var map1_ = _.map(map1, function (value, key) {
+            return value.toUpperCase();
+        });
+
+        console.log(JSON.stringify(map1)  +  " => " +JSON.stringify(map1_));//"name":"bobo","school":"jianZhong"} => ["BOBO","JIANZHONG"]
+
+
+        var every1 = _.every([1,2,3],(x)=>x>0)
+        var every2 = _.every([1,2,3,-1],(x)=>x>0)
+        var some1 = _.some([1,2,3,-1],(x)=>x>0)
+        console.log("every1:"+every1+" every2:"+every2 +" some1:"+some1);
+
+
+        console.log("max min")
+        var a = [1,1,2,2,3,,5 -1]
+        var max = _.max(a)
+        var min = _.min(a)
+        var fmin = _.min([])
+        console.log("max:"+max+" min:"+min +" fmin="+fmin) //max:4 min:1 fmin=Infinity
+
+        console.log("groupBy")
+        var scores = [10,20,50,70,80,90,100]
+        groups = _.groupBy(scores,function(x){
+            if(x<60)
+              return "C"
+            else if (x < 80)
+               return "B"
+            else
+               return "A"
+        });
+
+        console.log(JSON.stringify(groups)) //{"C":[10,20,50],"B":[70],"A":[80,90,100]}
+
+
+        console.log("shuffle sample")
+        var a1 = [1,2,3,4,5]
+        var ra1 = _.shuffle(a1)
+        var ra2 = _.shuffle(a1)
+        console.log("shuffle:  ra1:" + ra1+" ra2"+ ra2) //5,2,3,1,4 : 5,1,3,2,4
+        var sample1 = _.sample(a1,2)
+        console.log("sample1:"+sample1)
+
+
+        console.log("==Array==");
+        console.log("first last")
+        var a2 = [2,3,4,6,8]
+        var f = _.first(a2)
+        var l = _.last(a2)
+        console.log("f:"+f+ " l:"+l)
+
+        console.log("faltten")
+        var a3 = [1,2,[2,3],[5,6,[8,9]]]
+        var flatten = _.flatten(a3)
+        console.log(flatten);
+
+
+
+        console.log("zip unzip,object")
+        var name=["junjun","bobo","lala"]
+        var score=[200,123,4,111]
+        var zip = _.zip(name,score)
+        console.log(zip)
+        var unzip = _.unzip(zip)
+        console.log(unzip);
+        var obj = _.object(name,score)
+        console.log(obj)
+
+
+        console.log("range")
+        //默认从0开始小于1
+        console.log(_.range(10)) //[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        //从2开始小于10
+        console.log(_.range(2,10)) //[2, 3, 4, 5, 6, 7, 8, 9]
+        //从2开始小于10,步长为4
+        console.log(_.range(2,10,4)) //[2, 6]
+
+
+        console.log("Funciton 提供各种高阶函数")
+        console.log("bind 可以给函数绑定this")
+
+        var log = _.bind(console.log, console); //console.log 函数需要一个console来作为this
+        log("hello funciton")
+
+
+
+    },1000);
+
+
+</script>
+
+<script src="lib/underscore.js"></script>
+

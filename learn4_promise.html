@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>lean front end: form</title>
+</head>
+
+<body>
+
+    <div id="result_div">
+
+    </div>
+
+    <br>
+
+    <button id="btn1">testPromise</button>
+    <button id="btn2">测试串行</button>
+    <button id="btn3">测试race</button>
+</body>
+</html>
+
+
+<script>
+
+
+
+
+    /**
+     * promise 与 回调
+     * 回调代码风格不好看，promise可以将
+     */
+
+    function async_func1(resolve, reject)
+    {
+        var timeOut = Math.random() * 2 + 2;
+        console.log("time_consume_func doing some stuff");
+        setTimeout(function() {
+            if (timeOut < 2) {
+               resolve("200 ok")
+            }
+            else {
+                reject("failed")
+            }
+
+            console.log("1111");
+
+        },timeOut*1000);
+    }
+
+    var  btn1 = document.getElementById("btn1");
+    btn1.addEventListener("click",function(){
+        var p = new Promise(async_func1);
+
+        console.log("----")
+        p.then(function(result){ //then中的函数相当于, resolve
+            console.log(result);
+        }).catch(function(error){ //reject中的函数相当于, reject
+            console.log(error);
+        });
+    });
+
+    function async_job(i)
+    {
+        var timeOut = Math.random() * 2 + i ;
+        console.log("time_consume_func doing some stuff");
+        setTimeout(function() {
+            console.log("timeout = "+i);
+        },timeOut*1000);
+
+    }
+
+
+    /*
+       串行执行异步操作
+       比如job1 job2 job3 都是异步操作，用回调层次会很深，而且耦合很紧.
+       如果用promise就变成了job1.then(job2).then(job3);rxjava也是这样的
+     */
+    function multiply(input)
+    {
+        return new Promise(function(resolve, reject){
+            console.log("caculating " +input + "x" +input +" ...");
+            setTimeout(resolve,3000,input*input)
+        });
+    }
+
+    function add(input)
+    {
+        return new Promise(function(resolve, reject){
+            console.log("caculating " +input + "+" +input +" ...");
+            setTimeout(resolve,3000,input+input)
+        });
+    }
+
+
+
+    var  btn2 = document.getElementById("btn2");
+    btn2.addEventListener("click",function(){
+        var p1 = new Promise(function(resolve, reject){
+            console.log("start new Promise...");
+            resolve(123)
+        });
+
+        p1.then(add).then(multiply).then(function(result){console.log("get value = " + result)})
+    });
+
+
+    /**
+     * 还可以用race 来处理竞争关系
+     */
+
+    var p1 = new Promise(function(resolve, reject){
+        var timeOut = (Math.random() * 3 + Math.random() * 2) * 1000;
+        setTimeout(resolve,timeOut,["p1",timeOut]);
+    });
+
+    var p2 = new Promise(function(resolve, reject){
+        var timeOut = (Math.random() * 3 + Math.random() * 2)  * 1000;
+        setTimeout(resolve,timeOut,["p2",timeOut]);
+    });
+
+
+    var  btn3 = document.getElementById("btn3");
+    btn3.addEventListener("click",function() {
+        Promise.race([p1, p2]).then(function (params) {  //race
+            console.log(params[0] + " 用时 " + params[1]);
+        });
+    });
+
+</script>
+
