@@ -1,0 +1,8 @@
+javascript知识点:
+对象
+类的创建，继承
+原型链，__prop__ , prototype
+闭包及其应用点(带状态的函数，private函数,....) https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures
+作用域 es5：全局作用域，函数作用域。es6:全局作用域,函数作用域,块作用域(let)
+
+es6新特性:Proxy Reflex
