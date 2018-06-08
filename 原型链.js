@@ -79,3 +79,9 @@ puts(c.hasOwnProperty("raduis_size"))
 
 puts(Object.getOwnPropertyNames(s)) //[ 'name' ]
 puts(Object.getOwnPropertyNames(c)) //[ 'name', 'raduis_size' ]
+
+puts(`=== prototype of s ===`)
+puts(Reflect.getPrototypeOf(s))
+
+puts(`=== prototype of c ===`)
+puts(Reflect.getPrototypeOf(c))
