@@ -76,3 +76,6 @@ puts(s.hasOwnProperty("name"))
 puts(s.hasOwnProperty("raduis_size"))
 puts(c.hasOwnProperty("name"))
 puts(c.hasOwnProperty("raduis_size"))
+
+puts(Object.getOwnPropertyNames(s)) //[ 'name' ]
+puts(Object.getOwnPropertyNames(c)) //[ 'name', 'raduis_size' ]
