@@ -129,3 +129,7 @@ puts(ps1.getGrade())
 
 //PrimaryStudent1.test_var = 321;
 puts (PrimaryStudent1.test_func(321))
+
+
+
+
