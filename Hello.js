@@ -93,18 +93,18 @@ puts (arr instanceof Array)
 /*************变量作用域*************/
 
 var t1 = 10
-function foo(param)
+function foo_v(param)
 {
 
-    if(param > 0) //九三这个不执行，tt也会被初始化为undefined 而不会报 //ReferenceError
+    if(param > 0) //九三这个不执行，tt也会被初始化为undefined（这叫"变量提升"） 而不会报 //ReferenceError
     {
         var tt = 10
     }
 
     puts ("t1 = " + t1 + "; tt = " + tt)
 }
-foo(-1)
-foo(1)
+foo_v(-1)
+foo_v(1)
 
 
 /*
@@ -123,6 +123,9 @@ foo1(-1)
 
 
 /*************闭包*************/
+/*
+*闭包是包含"自由变量"的"代码块"
+*/
 
 var c1 = 1
 function foo2(param)
@@ -143,7 +146,9 @@ c1=2
 puts(func1(4))//11
 
 
-
+/*
+*变量的解构赋值
+*/
 //for循环 对象的属性遍历
 var o = {
     name:"andy",
@@ -173,28 +178,34 @@ var a = ["a","b"]
 var s = new Set(['A',"B"])
 var m = new Map([["AA",1],["BB",1]])
 for(var x of a)
-puts(x)
+{
+  puts(x)
+}
 
 for(var x of s)
-puts(x)
+{
+  puts(x)
+}
 
 for(var x of m)
-puts(x)
+{
+  puts(x)
+}
 
 //for(var)
 
 //forEach
 
 a.forEach(function(e,index,array){
-   puts(e+":"+index+":"+array)
+   puts(e+":"+index+":"+JSON.stringify(array))
 });
 
 s.forEach(function(e,se,set){ //set没有索引所以 e和se都一样
-    puts(e+":"+se+":"+set)
+    puts(e+":"+se+":"+JSON.stringify(set))
 });
 
 m.forEach(function(v,k,map){
-    puts(k+":"+v+":"+map)
+    puts(k+":"+v+":"+JSON.stringify(map))
 });
 
 
@@ -215,7 +226,7 @@ var abs = function(x)
 
 puts(abs(-1))//1
 
-//js允许纯如人一个参数而不影响调用
+//js允许纯如人一个参数而不影响调用 属于"变量的解构赋值"
 puts(abs(-10,11,"test"))//10
 puts(abs()) //NaN
 
@@ -279,14 +290,18 @@ foo(1,2,3,4)
  [ 3, 4 ]
  */
 
-//-----变量作用域----
+//-----变量作用域 es5只有两种作用域:"函数作用域"和"全局作用域" ES6添加了"块作用域"--let指令来----
 
+var global_vvv = "111"
 //局部变量
 function f1()
 {
-    var x = 0;
+    puts("global_vvv:"+global_vvv)//global_vvv:undefined
+    var global_vvv = 0;
+    puts("global_vvv:"+global_vvv) //global_vvv:0
 }
-puts(x) //undefined
+f1();
+puts("global_vvv:"+global_vvv) //global_vvv:111
 
 //全局变量 在最外层定义的函数
 var glob_v = "glob_v"
@@ -295,7 +310,7 @@ puts(glob_v)  //glob_v
 
 
 //变量提升
-//js会扫描所有变量，并将所有变量提升到变量顶部，所以 var x = "hello " + y 不会报错，但是会提升申明但是不会提升赋值
+//js会扫描所有变量，并将所有变量提升到变量顶部("变量提升")，所以 var x = "hello " + y 不会报错，但是会提升申明但是不会提升赋值
 function foo1(){
     var x = "hello " + y
     puts(x)
@@ -327,8 +342,8 @@ MYApp.foo()
 
 /*
    局部作用域
-   js变量作用域实际是函数内部的 在for循环中是无法定义具有局部作用域的变量
-   使用let可以局部作用域
+   js变量作用域实际是函数内部的（函数作用域） 在for循环中是无法定义具有局部作用域的变量
+   使用let可以局部作用域（块作用域）
  */
 
 function f3()
@@ -477,7 +492,7 @@ var arrs = arr.map(String)
 puts(arrs)
 
 
-var arrsum = arr.reduce(function(x,y){return x+y});
+var arrsum = arr.reduce(function(x,y){puts(`${x},${y}\r\n`);return x+y});
 puts(arrsum)
 
 var arrsnum = arr.reduce(function(x,y){
@@ -569,18 +584,17 @@ var xiaoming = {
     birth:1990,
     age:function() {
 
-        var _this = this;
         var get_age = ()=>
         {
             let y = new Date().getFullYear();
-            return y - _this.birth;  //this是一个特殊变量,指向当前的对象
+            return y - this.birth;  //this是一个特殊变量,指向当前的对象
         }
         return get_age
     }
 }
 puts ("xiaoming age = " + xiaoming.age()())//xiaoming age = 26
 
-
+puts("###+++++")
 /**
  * 生成器 多次返回的函数 ES6
 */
