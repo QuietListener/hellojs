@@ -8,3 +8,4 @@ javascript知识点:
 es6新特性:Proxy Reflex
 
 promise
+装饰器模式
